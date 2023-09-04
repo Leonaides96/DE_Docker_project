@@ -1,0 +1,39 @@
+## Creating a private network for each of a container
+## creating the services (at this case this level is VS CODE PROJECT) is creating the services (not container)
+## Notes, the spacing and the indudent level are important when designing the compose
+services:
+  # Creating container name, a container that have image/application that working on (eg: DE_docker as my container of my web application)
+  # Each container would affect by other container. (but will in the same services or ports)
+
+  # test_second_service:
+  # # Building the image,  
+  # # Ensure a image have it own "Dockerfile" inside, so the docker can create build the image refering the "Dockerfile"
+  #   build: DE_weather
+  #   ports:
+  #     - "5000:5000"
+
+  test_service:
+  # Building the image,  
+    build: DE_docker
+    # ports:
+    #   - "5000:5000"
+
+  # Addition (for web proxy) - adding the Nginx for the web reverse proxy
+  # Notes - when implementing the Nginx proxy, the original image port have be remove, because the Nginx proxying 
+  web:
+    build: nginx
+    ports:
+      - "80:80"
+
+
+  # Addition (for database) - adding the mysql d b in the container-image
+  db:
+    image: mysql
+
+    command: "--init-file /data/application/init.sql --default-authentication-plugin=mysql_native_password"
+
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+
+    volumes:
+      -"./db/init.sql:/data/application/init.sql"

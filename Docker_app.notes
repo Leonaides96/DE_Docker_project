@@ -1,0 +1,7 @@
+The docker repo: geekcap-pluralsight/python-docker
+
+Starting:
+1. venv
+2. install flask (micro web framework in python)
+
+1. Using the FLASK to make a application
